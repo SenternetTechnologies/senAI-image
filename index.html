@@ -6,163 +6,513 @@
     <title>StarMaker Event Hub - Senternet Technologies</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for Icons -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0f172a; /* Dark Slate */
+            font-family: 'Outfit', sans-serif;
+            background-color: #0b0f19;
             color: #ffffff;
-            /* StarMaker-ish Background Gradient */
-            background-image: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
             min-height: 100vh;
+            padding-bottom: 80px; /* Space for footer */
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+
+        /* Card Styling */
+        .event-card {
+            background: linear-gradient(145deg, #1a202c, #111827);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s, border-color 0.2s;
+            overflow: hidden;
+            position: relative;
         }
-        .glass-card:active {
+        .event-card:active {
             transform: scale(0.98);
-            background: rgba(255, 255, 255, 0.1);
+            border-color: #ec4899;
         }
-        .gradient-text {
-            background: linear-gradient(to right, #ec4899, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        /* The Preview Box Logic */
+        .preview-wrapper {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background: #2d3748;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        /* Animation for loading */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
+        
+        /* Simulating a mini browser view */
+        .preview-iframe {
+            width: 400%;  /* 4x width */
+            height: 400%; /* 4x height */
+            transform: scale(0.25); /* Scale down to fit */
+            transform-origin: top left;
+            border: none;
+            background-color: #ffffff;
+            pointer-events: none; /* Disables clicks/scrolls inside iframe */
         }
+
+        /* Overlay to ensure absolutely no interaction with iframe */
+        .preview-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 10;
+            background: rgba(0,0,0,0.1); /* Slight tint */
+        }
+
+        /* Category Header */
+        .category-header {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid #ec4899;
+        }
+
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .animate-fade {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="antialiased">
 
-    <!-- Header Section -->
-    <header class="p-6 text-center">
-        <div class="mb-2">
-            <i class="fa-solid fa-music text-4xl text-pink-500 animate-bounce"></i>
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-[#0b0f19]/90 backdrop-blur-md border-b border-gray-800 p-4 shadow-lg">
+        <div class="flex items-center justify-between container mx-auto max-w-lg">
+            <div>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+                    StarMaker Hub
+                </h1>
+                <p class="text-[10px] text-gray-400 tracking-wider">POWERED BY SENTERNET</p>
+            </div>
+            <div class="h-10 w-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center shadow-lg shadow-pink-500/20">
+                <i class="fa-solid fa-star text-white"></i>
+            </div>
         </div>
-        <h1 class="text-3xl font-bold tracking-wide">
-            <span class="gradient-text">StarMaker</span> Events
-        </h1>
-        <p class="text-gray-400 text-sm mt-2">Exclusive Event Access Portal</p>
     </header>
 
-    <!-- Main Content: Event Links -->
-    <main class="flex-grow container mx-auto px-4 pb-10 flex flex-col gap-4 max-w-md">
-        
-        <!-- Event 1: ARC2025 Live -->
-        <a href="https://m.starmakerstudios.com/a-vue3/spa-arc2025-live/index?promotion_id=81623&showBar=0&showNavigation=false&share_type=copyLink" 
-           class="glass-card p-5 rounded-2xl flex items-center gap-4 group fade-in" style="animation-delay: 0.1s;">
-            <div class="h-12 w-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:shadow-pink-500/50 transition">
-                <i class="fa-solid fa-microphone-lines text-white text-lg"></i>
-            </div>
-            <div class="flex-grow">
-                <h2 class="text-lg font-semibold text-white group-hover:text-pink-300 transition">ARC2025 Live</h2>
-                <p class="text-xs text-gray-400">Live Performance Event</p>
-            </div>
-            <div>
-                <i class="fa-solid fa-chevron-right text-gray-500"></i>
-            </div>
-        </a>
+    <!-- Content Container -->
+    <main class="container mx-auto max-w-lg p-4 space-y-6">
 
-        <!-- Event 2: Family Turntable -->
-        <a href="https://m.starmakerstudios.com/a-vue3/family-turntable?promotion_id=81819&showBar=0&showNavigation=false&pg_rf_ca_vn=16&_sxiq_open_origin=banner_officialevent&app=sm&user_sid=13358325610&share_type=copyLink" 
-           class="glass-card p-5 rounded-2xl flex items-center gap-4 group fade-in" style="animation-delay: 0.2s;">
-            <div class="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg group-hover:shadow-blue-500/50 transition">
-                <i class="fa-solid fa-compact-disc text-white text-lg"></i>
+        <!-- SECTION 1: HOT EVENTS -->
+        <div>
+            <div class="category-header p-3 mb-3 rounded-r-lg">
+                <h2 class="text-sm font-bold text-pink-400 uppercase tracking-widest"><i class="fa-solid fa-fire mr-2"></i>Main Events</h2>
             </div>
-            <div class="flex-grow">
-                <h2 class="text-lg font-semibold text-white group-hover:text-cyan-300 transition">Family Turntable</h2>
-                <p class="text-xs text-gray-400">Spin & Win Rewards</p>
-            </div>
-            <div>
-                <i class="fa-solid fa-chevron-right text-gray-500"></i>
-            </div>
-        </a>
+            <div class="space-y-3">
+                
+                <!-- Card Component Function -->
+                <!-- ARC2025 -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-arc2025-live/index?promotion_id=81623&showBar=0&showNavigation=false&share_type=copyLink" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-arc2025-live/index?promotion_id=81623&showBar=0" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">ARC2025 Live</h3>
+                        <p class="text-xs text-gray-400 mt-1 line-clamp-2">The biggest live event of the year.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
 
-        <!-- Event 3: MID2025 Intimacy -->
-        <a href="https://m.starmakerstudios.com/a-vue3/spa-mid2025-intimacy/index?promotion_id=81431&_sxom=0&_sxfo=0&showBar=0&showNavigation=false&pg_rf_ca_vn=36&_sxiq_open_origin=banner_officialevent&app=sm&user_sid=13358325610&_sx_share_tracking_id=a_vue3_spa_mid2025_intimacy_index_81431_1661&share_type=copyLink" 
-           class="glass-card p-5 rounded-2xl flex items-center gap-4 group fade-in" style="animation-delay: 0.3s;">
-            <div class="h-12 w-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 transition">
-                <i class="fa-solid fa-heart text-white text-lg"></i>
-            </div>
-            <div class="flex-grow">
-                <h2 class="text-lg font-semibold text-white group-hover:text-yellow-300 transition">MID2025 Intimacy</h2>
-                <p class="text-xs text-gray-400">Connection & Social Event</p>
-            </div>
-            <div>
-                <i class="fa-solid fa-chevron-right text-gray-500"></i>
-            </div>
-        </a>
+                <!-- DreamWorks -->
+                <a href="https://m.starmakerstudios.com/a/spa-dreamWorks/index?promotion_id=5925&showBar=0&showNavigation=false&new=true&isStatusBarStyle=true&sp=game_center&game_id=5&_sxiq_open_origin=game_center&game_id=5" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a/spa-dreamWorks/index?promotion_id=5925" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">DreamWorks</h3>
+                        <p class="text-xs text-gray-400 mt-1">Make your dreams come true.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
 
-        <!-- Instructions (Optional) -->
-        <div class="mt-4 p-4 rounded-lg bg-gray-900/50 text-center text-xs text-gray-500 fade-in" style="animation-delay: 0.4s;">
-            <i class="fa-solid fa-circle-info mr-1"></i> Tap any event to open. Press 'Back' to return here.
+                <!-- Crazy Monster -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-crazy-monster?promotion_id=37838&showBar=0&showNavigation=false&heightPercent=80&corners=0.01&sp=game_center&game_id=2&_sxiq_open_origin=game_center&game_id=2" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper bg-green-900">
+                        <!-- Using bg color fallback if iframe fails -->
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-crazy-monster" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Crazy Monster</h3>
+                        <p class="text-xs text-gray-400 mt-1">Defeat the monster and win.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                 <!-- Family Turntable -->
+                 <a href="https://m.starmakerstudios.com/a-vue3/family-turntable?promotion_id=81819&showBar=0&showNavigation=false&pg_rf_ca_vn=16&_sxiq_open_origin=banner_officialevent&app=sm&user_sid=13358325610&share_type=copyLink" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/family-turntable" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Family Turntable</h3>
+                        <p class="text-xs text-gray-400 mt-1">Spin specifically for families.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- MID2025 Intimacy -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-mid2025-intimacy/index?promotion_id=81431&_sxom=0&_sxfo=0&showBar=0&showNavigation=false&pg_rf_ca_vn=36&_sxiq_open_origin=banner_officialevent&app=sm&user_sid=13358325610&_sx_share_tracking_id=a_vue3_spa_mid2025_intimacy_index_81431_1661&share_type=copyLink" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-mid2025-intimacy/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">MID2025 Intimacy</h3>
+                        <p class="text-xs text-gray-400 mt-1">Connect and grow intimacy.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- SECTION 2: VIP & TOOLS -->
+        <div>
+            <div class="category-header p-3 mb-3 rounded-r-lg border-l-purple-500">
+                <h2 class="text-sm font-bold text-purple-400 uppercase tracking-widest"><i class="fa-solid fa-gem mr-2"></i>VIP & Tools</h2>
+            </div>
+            <div class="space-y-3">
+                
+                <!-- Creator Center -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-creator-center/index?promotion_id=69960&showBar=0&showNavigation=false&pg_rf_ca_vn=22" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper bg-blue-900">
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-creator-center/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Creator Center</h3>
+                        <p class="text-xs text-gray-400 mt-1">Manage your content.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- VIP New Pro -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-vip-new-pro/index?showBar=0&showNavigation=false&pg_rf_ca_vn=65&page_source=vip_icon" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper bg-yellow-900">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-vip-new-pro/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">VIP New Pro</h3>
+                        <p class="text-xs text-gray-400 mt-1">Upgrade your status.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Noble H5 -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-noble-h5/?showBar=0&showNavigation=false&_sxiq_open_origin=Profile&pg_rf_ca_vn=78" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-noble-h5/" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Noble</h3>
+                        <p class="text-xs text-gray-400 mt-1">Exclusive noble privileges.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Recharge -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-recharge?showBar=0&showNavigation=false&new=true&uid=844424932338727&pg_rf_ca_vn=231&page_source=profile_recharge" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper bg-red-900">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-recharge" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Recharge</h3>
+                        <p class="text-xs text-gray-400 mt-1">Top up your coins.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                 <!-- User Certification -->
+                 <a href="https://m.starmakerstudios.com/a-vue3/spa-user-certification/index?showBar=0&showNavigation=false&new=true" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-user-certification/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">User Certification</h3>
+                        <p class="text-xs text-gray-400 mt-1">Get verified status.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Medal -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-medal/index?showBar=0&showNavigation=false&isStatusBarStyle=true" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-medal/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Medals</h3>
+                        <p class="text-xs text-gray-400 mt-1">View your achievements.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                 <!-- Privilege Tools -->
+                 <a href="https://m.starmakerstudios.com/a-vue3/spa-privilege-tools/index?showBar=0&showNavigation=false&pg_rf_ca_vn=53" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-privilege-tools/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Privilege Tools</h3>
+                        <p class="text-xs text-gray-400 mt-1">Special user tools.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Agent Recharge -->
+                <a href="https://m.starmakerstudios.com/a/spa-agent-recharge/agentList?showBar=0&showNavigation=false&new=true&pg_rf_ca_vn=140" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a/spa-agent-recharge/agentList" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Agent Recharge</h3>
+                        <p class="text-xs text-gray-400 mt-1">Find recharge agents.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Live Record -->
+                <a href="https://m.starmakerstudios.com/a/spa-live-record/index?showBar=0&showNavigation=false&new=true&pg_rf_ca_vn=14" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a/spa-live-record/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Live Record</h3>
+                        <p class="text-xs text-gray-400 mt-1">Check live history.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Withdraw -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-with-draw/index?showBar=1&showNavigation=true&new=true&pg_rf_ca_vn=26" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-with-draw/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Withdraw</h3>
+                        <p class="text-xs text-gray-400 mt-1">Income withdrawal.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                 <!-- Security Center -->
+                 <a href="https://m.starmakerstudios.com/a-vue3/spa-security-center/index?showBar=0&showNavigation=false" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-security-center/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Security Center</h3>
+                        <p class="text-xs text-gray-400 mt-1">Account protection.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Feedback -->
+                <a href="https://m.starmakerstudios.com/v/feedback/index?showBar=1&showNavigation=true&new=true&pg_rf_ca_vn=550" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                        <iframe class="preview-iframe" src="https://m.starmakerstudios.com/v/feedback/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Feedback</h3>
+                        <p class="text-xs text-gray-400 mt-1">Support & Help.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- SECTION 3: GAMES ZONE -->
+        <div>
+            <div class="category-header p-3 mb-3 rounded-r-lg border-l-orange-500">
+                <h2 class="text-sm font-bold text-orange-400 uppercase tracking-widest"><i class="fa-solid fa-gamepad mr-2"></i>Games Zone</h2>
+            </div>
+            <div class="space-y-3">
+                
+                <!-- Fortune Tiger -->
+                <a href="https://m.starmakerstudios.com/ykgame/cocos/starmaker/web-mobile/bjbg_fortune_tiger_ta/index.html?showBar=0&showNavigation=false&ratio=0.75&game_key=bjbg_for" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper bg-orange-900">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/ykgame/cocos/starmaker/web-mobile/bjbg_fortune_tiger_ta/index.html" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Fortune Tiger</h3>
+                        <p class="text-xs text-gray-400 mt-1">Try your luck!</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Olympus -->
+                <a href="https://m.starmakerstudios.com/ykgame/cocos/starmaker/web-mobile/bjbg_olympus/index.html?showBar=0&showNavigation=false&ratio=0.75&game_key=bjbg_olympus&serv" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/ykgame/cocos/starmaker/web-mobile/bjbg_olympus/index.html" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Olympus</h3>
+                        <p class="text-xs text-gray-400 mt-1">Gods of Olympus.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Coin Volcano -->
+                <a href="https://m.starmakerstudios.com/mini-game/coinVolcano/?promotion_id=60223&showBar=0&showNavigation=false&vs=1&sp=game_center&game_id=26&_sxiq_open_" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/mini-game/coinVolcano/?promotion_id=60223" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Coin Volcano</h3>
+                        <p class="text-xs text-gray-400 mt-1">Eruption of coins.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Rhapsody Music -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-rhapsody-music/trans?promotion_id=2711&showBar=0&showNavigation=false&sp=game_center&game_id=13&_sxiq_open_origin=game_center&game_id=13" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper bg-purple-900">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-rhapsody-music/trans?promotion_id=2711" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Rhapsody Music</h3>
+                        <p class="text-xs text-gray-400 mt-1">Music adventure.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                 <!-- Steamworks -->
+                 <a href="https://m.starmakerstudios.com/mini-game/steamworks/?promotion_id=65777&showBar=0&showNavigation=false&sp=game_center&game_id=32&_sxiq_open_origin" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/mini-game/steamworks/?promotion_id=65777" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Steamworks</h3>
+                        <p class="text-xs text-gray-400 mt-1">Industrial gaming.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Egypt Bingo -->
+                <a href="https://m.starmakerstudios.com/mini-game/egyptBingo/?promotion_id=76607&showBar=0&showNavigation=false&sp=game_center&game_id=41&_sxiq_open_origin=game_center&game_id=41" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/mini-game/egyptBingo/?promotion_id=76607" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Egypt Bingo</h3>
+                        <p class="text-xs text-gray-400 mt-1">Bingo in the sands.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Super Fruit -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-super-fruit/index?promotion_id=21592&showBar=0&showNavigation=false&new=true&sp=game_center&game_id=17&_sxiq_open_origin=game_center&game_id=17" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper bg-green-900">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-super-fruit/index" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Super Fruit</h3>
+                        <p class="text-xs text-gray-400 mt-1">Fruity fun.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                 <!-- Taillight Popup -->
+                 <a href="https://m.starmakerstudios.com/a-vue3/taillight-popup-2023?showBar=0&showNavigation=false&new=true&heightPercent=70&pg_rf_ca_vn=14" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/taillight-popup-2023" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Taillight Popup</h3>
+                        <p class="text-xs text-gray-400 mt-1">Car customization.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+                <!-- Celebrities -->
+                <a href="https://m.starmakerstudios.com/a-vue3/spa-celebrities?promotion_id=1631&showBar=1&showNavigation=true&pg_rf_ca_vn=15" class="event-card rounded-xl p-3 flex items-center gap-4 animate-fade">
+                    <div class="preview-wrapper">
+                         <iframe class="preview-iframe" src="https://m.starmakerstudios.com/a-vue3/spa-celebrities?promotion_id=1631" loading="lazy"></iframe>
+                        <div class="preview-overlay"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-white truncate">Celebrities</h3>
+                        <p class="text-xs text-gray-400 mt-1">Star interactions.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                </a>
+
+            </div>
         </div>
 
     </main>
 
-    <!-- Senternet Technologies Footer -->
-    <footer class="mt-auto bg-gray-900 border-t border-gray-800 p-6 text-center">
-        <div class="mb-4">
-            <h3 class="text-md font-bold text-white tracking-widest uppercase">SENTERNET TECHNOLOGIES</h3>
-            <p class="text-xs text-gray-400 mt-1">Digital Solutions & Web Design</p>
-        </div>
+    <!-- Senternet Footer -->
+    <footer class="mt-8 border-t border-gray-800 bg-[#0b0f19] p-6 text-center">
+        <h3 class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 mb-2">
+            SENTERNET TECHNOLOGIES
+        </h3>
         
-        <div class="flex justify-center gap-4 mb-4">
-             <!-- WhatsApp -->
-             <a href="https://wa.me/918190038085" class="h-8 w-8 rounded-full bg-green-600 flex items-center justify-center hover:bg-green-500 transition">
-                <i class="fa-brands fa-whatsapp text-white text-sm"></i>
+        <div class="flex justify-center gap-4 my-4">
+             <a href="https://wa.me/918190038085" class="w-10 h-10 rounded-full bg-green-600/20 text-green-500 flex items-center justify-center hover:bg-green-600 hover:text-white transition">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
             </a>
-            <!-- Mail -->
-            <a href="mailto:senternettechnologies@gmail.com" class="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center hover:bg-red-500 transition">
-                <i class="fa-solid fa-envelope text-white text-sm"></i>
-            </a>
-            <!-- Location -->
-            <a href="#" class="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-500 transition">
-                <i class="fa-solid fa-map-marker-alt text-white text-sm"></i>
+            <a href="mailto:senternettechnologies@gmail.com" class="w-10 h-10 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center hover:bg-red-600 hover:text-white transition">
+                <i class="fa-solid fa-envelope text-lg"></i>
             </a>
         </div>
 
         <div class="text-xs text-gray-500 space-y-1">
-            <p><i class="fa-solid fa-location-dot mr-1"></i> Aranthangi, Pudukkottai</p>
-            <p><i class="fa-solid fa-phone mr-1"></i> +91 81900 38085</p>
-            <p><i class="fa-solid fa-at mr-1"></i> senternettechnologies@gmail.com</p>
-        </div>
-        
-        <div class="mt-4 border-t border-gray-800 pt-4">
-            <p class="text-[10px] text-gray-600">© 2025 Senternet Technologies. All rights reserved.</p>
+            <p>Aranthangi, Pudukkottai</p>
+            <p>+91 81900 38085 | senternettechnologies@gmail.com</p>
+            <p class="mt-4 pt-4 border-t border-gray-800/50">© 2025 Senternet Technologies.</p>
         </div>
     </footer>
 
     <script>
-        // Simple script to handle navigation behavior if needed
-        // For standard "Back" button support, direct href is best.
-        
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                // We allow default behavior (opening link)
-                // This ensures it opens in the same webview container
-                // When user hits 'Back', the browser history brings them back here.
-                
-                // Optional: visual feedback
-                this.style.opacity = '0.7';
-                setTimeout(() => {
-                    this.style.opacity = '1';
-                }, 300);
-            });
+        // Optional: Error handling for iframes
+        // If an iframe refuses to load due to X-Frame-Options, we can style the parent
+        document.querySelectorAll('iframe').forEach(iframe => {
+            iframe.onerror = function() {
+                this.style.display = 'none'; // Hide broken iframe
+                this.parentElement.style.backgroundColor = '#1f2937'; // Show fallback color
+                // Add an icon maybe?
+            };
         });
     </script>
 </body>
 </html>
+
 
