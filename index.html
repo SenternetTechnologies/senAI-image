@@ -3,258 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sen AI - Image generator</title>
+    <title>StarMaker Event Hub - Senternet Technologies</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom font */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f8fb;
-            color: #1a1a2e;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a; /* Dark Slate */
+            color: #ffffff;
+            /* StarMaker-ish Background Gradient */
+            background-image: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            min-height: 100vh;
         }
-        .container {
-            max-width: 1200px;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
-        .btn-generate {
-            transition: all 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        .glass-card:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.1);
         }
-        .btn-generate:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 8px -1px rgba(49, 46, 129, 0.2), 0 4px 6px -2px rgba(49, 46, 129, 0.1);
+        .gradient-text {
+            background: linear-gradient(to right, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .btn-generate:disabled {
-            cursor: not-allowed;
-            opacity: 0.6;
+        /* Animation for loading */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
         }
-        .image-card {
-            aspect-ratio: 1 / 1;
-            background-color: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-        .image-card:hover {
-            transform: scale(1.02);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="p-4 md:p-8 min-h-screen">
+<body class="flex flex-col min-h-screen">
 
-    <div id="app" class="container mx-auto">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-[#312e81]">Scenography AI</h1>
-            <p class="text-xl text-gray-600 mt-2">Generate 10 unique scenes from a single concept.</p>
-        </header>
+    <!-- Header Section -->
+    <header class="p-6 text-center">
+        <div class="mb-2">
+            <i class="fa-solid fa-music text-4xl text-pink-500 animate-bounce"></i>
+        </div>
+        <h1 class="text-3xl font-bold tracking-wide">
+            <span class="gradient-text">StarMaker</span> Events
+        </h1>
+        <p class="text-gray-400 text-sm mt-2">Exclusive Event Access Portal</p>
+    </header>
 
-        <section class="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-100">
-            <div id="input-form">
-                <label for="prompt" class="block text-sm font-medium text-gray-700 mb-2">
-                    Describe your scene or concept:
-                </label>
-                <textarea id="prompt" rows="3"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-[#4f46e5] focus:border-[#4f46e5] transition duration-150 ease-in-out resize-none text-base"
-                    placeholder="E.g., A cyberpunk street market in Tokyo at midnight, heavy rain, neon signs reflecting off wet asphalt, cinematic lighting.">A highly detailed, photorealistic close-up of a lone astronaut looking out a spaceship window at a nebula, 8k, cinematic lighting.</textarea>
-                <div class="flex flex-col md:flex-row justify-between items-center mt-4 space-y-3 md:space-y-0 md:space-x-4">
-                    <div class="w-full md:w-auto">
-                        <label for="count" class="text-sm font-medium text-gray-700">Images to Generate:</label>
-                        <input id="count" type="number" value="4" min="1" max="4" readonly
-                            class="p-2 border border-gray-300 rounded-lg w-20 bg-gray-100 cursor-default text-center font-bold ml-2">
-                        <span class="text-sm text-gray-500">(Fixed at 4 as requested)</span>
-                    </div>
-
-                    <button id="generate-btn" onclick="generateImages()"
-                        class="btn-generate w-full md:w-auto px-8 py-3 bg-[#4f46e5] text-white font-semibold rounded-xl text-lg hover:bg-[#312e81] focus:outline-none focus:ring-4 focus:ring-[#a5b4fc] disabled:bg-gray-400">
-                        Generate 4 images
-                    </button>
-                </div>
+    <!-- Main Content: Event Links -->
+    <main class="flex-grow container mx-auto px-4 pb-10 flex flex-col gap-4 max-w-md">
+        
+        <!-- Event 1: ARC2025 Live -->
+        <a href="https://m.starmakerstudios.com/a-vue3/spa-arc2025-live/index?promotion_id=81623&showBar=0&showNavigation=false&share_type=copyLink" 
+           class="glass-card p-5 rounded-2xl flex items-center gap-4 group fade-in" style="animation-delay: 0.1s;">
+            <div class="h-12 w-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:shadow-pink-500/50 transition">
+                <i class="fa-solid fa-microphone-lines text-white text-lg"></i>
             </div>
-        </section>
-
-        <section id="results-container" class="mt-8">
-            <!-- Loading and Error messages go here -->
-            <div id="message-area" class="text-center p-4">
-                <p class="text-gray-500">Enter a detailed prompt above to begin generating your 4 scenes.</p>
+            <div class="flex-grow">
+                <h2 class="text-lg font-semibold text-white group-hover:text-pink-300 transition">ARC2025 Live</h2>
+                <p class="text-xs text-gray-400">Live Performance Event</p>
             </div>
-            <!-- Image Grid -->
-            <div id="image-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mt-6">
-                <!-- Image cards will be inserted here -->
+            <div>
+                <i class="fa-solid fa-chevron-right text-gray-500"></i>
             </div>
-        </section>
+        </a>
 
-    </div>
+        <!-- Event 2: Family Turntable -->
+        <a href="https://m.starmakerstudios.com/a-vue3/family-turntable?promotion_id=81819&showBar=0&showNavigation=false&pg_rf_ca_vn=16&_sxiq_open_origin=banner_officialevent&app=sm&user_sid=13358325610&share_type=copyLink" 
+           class="glass-card p-5 rounded-2xl flex items-center gap-4 group fade-in" style="animation-delay: 0.2s;">
+            <div class="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg group-hover:shadow-blue-500/50 transition">
+                <i class="fa-solid fa-compact-disc text-white text-lg"></i>
+            </div>
+            <div class="flex-grow">
+                <h2 class="text-lg font-semibold text-white group-hover:text-cyan-300 transition">Family Turntable</h2>
+                <p class="text-xs text-gray-400">Spin & Win Rewards</p>
+            </div>
+            <div>
+                <i class="fa-solid fa-chevron-right text-gray-500"></i>
+            </div>
+        </a>
 
-    <script type="module">
-        // Global variables for API and Exponential Backoff
-        const apiKey = "AIzaSyBNiN6Xub4eevPaNfm_TXyrmRZJvfLX2oA";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-        const MAX_RETRIES = 5;
-        let isLoading = false;
+        <!-- Event 3: MID2025 Intimacy -->
+        <a href="https://m.starmakerstudios.com/a-vue3/spa-mid2025-intimacy/index?promotion_id=81431&_sxom=0&_sxfo=0&showBar=0&showNavigation=false&pg_rf_ca_vn=36&_sxiq_open_origin=banner_officialevent&app=sm&user_sid=13358325610&_sx_share_tracking_id=a_vue3_spa_mid2025_intimacy_index_81431_1661&share_type=copyLink" 
+           class="glass-card p-5 rounded-2xl flex items-center gap-4 group fade-in" style="animation-delay: 0.3s;">
+            <div class="h-12 w-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shadow-lg group-hover:shadow-orange-500/50 transition">
+                <i class="fa-solid fa-heart text-white text-lg"></i>
+            </div>
+            <div class="flex-grow">
+                <h2 class="text-lg font-semibold text-white group-hover:text-yellow-300 transition">MID2025 Intimacy</h2>
+                <p class="text-xs text-gray-400">Connection & Social Event</p>
+            </div>
+            <div>
+                <i class="fa-solid fa-chevron-right text-gray-500"></i>
+            </div>
+        </a>
 
-        const promptInput = document.getElementById('prompt');
-        const generateBtn = document.getElementById('generate-btn');
-        const imageGrid = document.getElementById('image-grid');
-        const messageArea = document.getElementById('message-area');
+        <!-- Instructions (Optional) -->
+        <div class="mt-4 p-4 rounded-lg bg-gray-900/50 text-center text-xs text-gray-500 fade-in" style="animation-delay: 0.4s;">
+            <i class="fa-solid fa-circle-info mr-1"></i> Tap any event to open. Press 'Back' to return here.
+        </div>
 
-        // --- Utility Functions ---
+    </main>
 
-        function base64ToArrayBuffer(base64) {
-            const binaryString = atob(base64);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            return bytes.buffer;
-        }
+    <!-- Senternet Technologies Footer -->
+    <footer class="mt-auto bg-gray-900 border-t border-gray-800 p-6 text-center">
+        <div class="mb-4">
+            <h3 class="text-md font-bold text-white tracking-widest uppercase">SENTERNET TECHNOLOGIES</h3>
+            <p class="text-xs text-gray-400 mt-1">Digital Solutions & Web Design</p>
+        </div>
+        
+        <div class="flex justify-center gap-4 mb-4">
+             <!-- WhatsApp -->
+             <a href="https://wa.me/918190038085" class="h-8 w-8 rounded-full bg-green-600 flex items-center justify-center hover:bg-green-500 transition">
+                <i class="fa-brands fa-whatsapp text-white text-sm"></i>
+            </a>
+            <!-- Mail -->
+            <a href="mailto:senternettechnologies@gmail.com" class="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center hover:bg-red-500 transition">
+                <i class="fa-solid fa-envelope text-white text-sm"></i>
+            </a>
+            <!-- Location -->
+            <a href="#" class="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-500 transition">
+                <i class="fa-solid fa-map-marker-alt text-white text-sm"></i>
+            </a>
+        </div>
 
-        // Exponential backoff implementation for reliable API calls
-        async function fetchWithRetry(url, options, maxRetries = MAX_RETRIES) {
-            for (let attempt = 0; attempt < maxRetries; attempt++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.status === 429 && attempt < maxRetries - 1) {
-                        // Too Many Requests (Rate Limit) - Retry
-                        const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000;
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        continue; // Go to next attempt
-                    }
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(`API Request Failed: ${response.status} - ${errorData.error?.message || response.statusText}`);
-                    }
-                    return response;
-                } catch (error) {
-                    if (attempt === maxRetries - 1) {
-                        throw error;
-                    }
-                    // For network errors or other non-429 failures, apply backoff too
-                    const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                }
-            }
-        }
+        <div class="text-xs text-gray-500 space-y-1">
+            <p><i class="fa-solid fa-location-dot mr-1"></i> Aranthangi, Pudukkottai</p>
+            <p><i class="fa-solid fa-phone mr-1"></i> +91 81900 38085</p>
+            <p><i class="fa-solid fa-at mr-1"></i> senternettechnologies@gmail.com</p>
+        </div>
+        
+        <div class="mt-4 border-t border-gray-800 pt-4">
+            <p class="text-[10px] text-gray-600">© 2025 Senternet Technologies. All rights reserved.</p>
+        </div>
+    </footer>
 
-        // --- UI Update Functions ---
-
-        function setLoading(state) {
-            isLoading = state;
-            generateBtn.disabled = state;
-            generateBtn.innerHTML = state
-                ? `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                 </svg> Generating 10 Scenes...`
-                : 'Generate 10 Scenes';
-            messageArea.innerHTML = state
-                ? '<p class="text-[#4f46e5] flex items-center justify-center font-semibold"><svg class="animate-pulse mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> This may take up to a minute. Please wait.</p>'
-                : '';
-        }
-
-        function displayError(message) {
-            imageGrid.innerHTML = '';
-            messageArea.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <strong class="font-bold">Generation Error:</strong>
-                <span class="block sm:inline">${message}</span>
-            </div>`;
-        }
-
-        function displayImages(base64Images) {
-            imageGrid.innerHTML = ''; // Clear previous results
-            if (base64Images.length === 0) {
-                 messageArea.innerHTML = '<p class="text-gray-500">The model returned no images. Try adjusting your prompt.</p>';
-                 return;
-            }
-
-            base64Images.forEach((base64, index) => {
-                const imageSrc = `data:image/png;base64,${base64}`;
-                const card = document.createElement('div');
-                card.className = 'image-card group';
-                card.innerHTML = `
-                    <img src="${imageSrc}" alt="Generated Scene ${index + 1}" class="w-full h-full object-cover rounded-lg transition-opacity duration-500 group-hover:opacity-90"
-                         onerror="this.onerror=null; this.src='https://placehold.co/400x400/CCCCCC/333333?text=Image+Failed+to+Load'">
-                `;
-                imageGrid.appendChild(card);
+    <script>
+        // Simple script to handle navigation behavior if needed
+        // For standard "Back" button support, direct href is best.
+        
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // We allow default behavior (opening link)
+                // This ensures it opens in the same webview container
+                // When user hits 'Back', the browser history brings them back here.
+                
+                // Optional: visual feedback
+                this.style.opacity = '0.7';
+                setTimeout(() => {
+                    this.style.opacity = '1';
+                }, 300);
             });
-            messageArea.innerHTML = '<p class="text-green-600 font-semibold">Generation complete! 10 unique scenes from your concept.</p>';
-        }
-
-        // --- Main Logic ---
-
-        window.generateImages = async function() {
-            if (isLoading) return;
-
-            const prompt = promptInput.value.trim();
-            const sampleCount = parseInt(document.getElementById('count').value, 10);
-
-            if (!prompt) {
-                displayError("Please enter a creative description for your scene.");
-                return;
-            }
-
-            imageGrid.innerHTML = '';
-            setLoading(true);
-
-            try {
-                const payload = {
-                    instances: {
-                        prompt: prompt
-                    },
-                    parameters: {
-                        sampleCount: sampleCount
-                    }
-                };
-
-                const response = await fetchWithRetry(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                // Check for a valid response structure
-                const predictions = result?.predictions;
-                if (!predictions || predictions.length === 0) {
-                    throw new Error("The API response did not contain image predictions.");
-                }
-
-                const base64Images = predictions
-                    .map(p => p.bytesBase64Encoded)
-                    .filter(b => b); // Filter out any empty results
-
-                if (base64Images.length === 0) {
-                     throw new Error("No image data found in the API response.");
-                }
-
-                displayImages(base64Images);
-
-            } catch (error) {
-                console.error("Image generation failed:", error);
-                displayError(`An unexpected error occurred: ${error.message}`);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        // Initialize UI on load
-        document.addEventListener('DOMContentLoaded', () => {
-             // Ensure initial state is correct (not loading)
-             setLoading(false);
-             // Pre-fill placeholder cards while waiting for first generation
-             imageGrid.innerHTML = Array(10).fill().map(() =>
-                `<div class="image-card">
-                    <svg class="h-10 w-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-9-6h.01M6 18h.01M18 18h.01M2 6h20v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                    </svg>
-                </div>`
-            ).join('');
         });
     </script>
 </body>
 </html>
+
